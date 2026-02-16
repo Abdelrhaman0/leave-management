@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل موظف جديد - إدارة إجازاتي</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #4834d4;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --input-bg: rgba(0,0,0,0.03);
+            --input-border: #dee2e6;
+            --input-focus-border: #4834d4;
+        }
+
+        body.dark-mode {
+            --primary-color: #a29bfe;
+            --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            --card-bg: #1e272e;
+            --text-main: #f1f2f6;
+            --text-muted: #ced4da;
+            --input-bg: rgba(255,255,255,0.06);
+            --input-border: rgba(255,255,255,0.15);
+            --input-focus-border: #a29bfe;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-main);
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        /* Dark Mode Toggle */
+        .toggle-dark {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 1000;
+            cursor: pointer;
+            background: var(--card-bg);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            color: var(--primary-color);
+            transition: 0.3s;
+        }
+        .toggle-dark:hover {
+            transform: scale(1.1);
+        }
+
+        /* Main Card */
+        .main-card {
+            background: var(--card-bg);
+            border: none;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+            transition: background 0.4s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 680px;
+            padding: 40px;
+        }
+
+        /* Header */
+        .card-header-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .card-header-section .icon-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #6c5ce7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 8px 25px rgba(72, 52, 212, 0.3);
+        }
+        .card-header-section .icon-circle i {
+            font-size: 1.8rem;
+            color: #fff;
+        }
+        .card-header-section h3 {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .card-header-section p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* Form Labels */
+        .form-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .form-label i {
+            color: var(--primary-color);
+            margin-left: 6px;
+        }
+
+        /* Form Inputs */
+        .form-control {
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-radius: 12px;
+            color: var(--text-main);
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .form-control::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+        .form-control:focus {
+            background: var(--input-bg);
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 0 3px rgba(72, 52, 212, 0.15);
+            color: var(--text-main);
+        }
+
+        /* Password input group */
+        .input-group .form-control {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .input-group .input-group-text {
+            background: var(--input-bg);
+            border: 1.5px solid var(--input-border);
+            border-right: none;
+            border-radius: 12px 0 0 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .input-group .input-group-text:hover {
+            color: var(--primary-color);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary-color), #6c5ce7);
+            border: none;
+            border-radius: 14px;
+            padding: 13px;
+            font-weight: 700;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(72, 52, 212, 0.3);
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(72, 52, 212, 0.45);
+            color: #fff;
+        }
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Login Link */
+        .login-link {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+        .login-link a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        /* Divider */
+        .form-divider {
+            height: 1px;
+            background: var(--input-border);
+            margin: 8px 0 20px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Dark Mode Toggle -->
+<div class="toggle-dark" onclick="toggleDarkMode()" id="darkToggle">
+    <i class="bi bi-moon-stars-fill"></i>
+</div>
+
+<div class="main-card">
+
+    <!-- Back Link -->
+    <div class="text-center mt-3 login-link">
+        <a href="/manager/employees">
+            <i class="bi bi-arrow-right"></i> العودة لقائمة الموظفين
+        </a>
+    </div>
+
+    <!-- Header -->
+    <div class="card-header-section">
+        <div class="icon-circle">
+            <i class="bi bi-person-plus"></i>
+        </div>
+        <h3>تسجيل موظف جديد</h3>
+        <p>أدخل بيانات الموظف لإنشاء حساب جديد</p>
+    </div>
+
+    <!-- Error Alert -->
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show rounded-4 mb-4" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span th:text="${error}">حدث خطأ ما</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Form -->
+    <form th:action="@{/manager/register}"
+          th:object="${registerRequest}"
+          method="post">
+
+        <div class="row g-3">
+
+            <!-- Employee Code -->
+            <div class="col-md-6">
+                <label class="form-label">
+                    <i class="bi bi-hash"></i> كود الموظف
+                </label>
+                <input type="text"
+                       th:field="*{employeeCode}"
+                       class="form-control"
+                       placeholder="الكود"
+                       required>
+            </div>
+
+            <!-- Name -->
+            <div class="col-md-6">
+                <label class="form-label">
+                    <i class="bi bi-person"></i> الإسم بالكامل
+                </label>
+                <input type="text"
+                       th:field="*{name}"
+                       class="form-control"
+                       placeholder="الإسم"
+                       required>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6">
+                <label class="form-label">
+                    <i class="bi bi-envelope"></i> الإيميل
+                </label>
+                <input type="email"
+                       th:field="*{email}"
+                       class="form-control"
+                       placeholder="email@company.com"
+                       required>
+            </div>
+
+            <!-- Password -->
+            <div class="col-md-6">
+                <label class="form-label">
+                    <i class="bi bi-shield-lock"></i> كلمة المرور
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text" onclick="togglePassword()">
+                        <i id="eyeIcon" class="bi bi-eye"></i>
+                    </span>
+                    <input type="password"
+                           th:field="*{password}"
+                           id="password"
+                           class="form-control"
+                           placeholder="كلمة المرور"
+                           required>
+                </div>
+            </div>
+
+            <div class="col-12"><div class="form-divider"></div></div>
+
+            <!-- Hire Date -->
+            <div class="col-md-4">
+                <label class="form-label">
+                    <i class="bi bi-calendar-event"></i> تاريخ التعيين
+                </label>
+                <input type="date"
+                       th:field="*{hireDate}"
+                       class="form-control"
+                       required>
+            </div>
+
+            <!-- Age -->
+            <div class="col-md-4">
+                <label class="form-label">
+                    <i class="bi bi-calendar-heart"></i> العمر
+                </label>
+                <input type="number"
+                       th:field="*{age}"
+                       class="form-control"
+                       placeholder="العمر"
+                       required>
+            </div>
+
+            <!-- Phone -->
+            <div class="col-md-4">
+                <label class="form-label">
+                    <i class="bi bi-telephone"></i> رقم التلفون
+                </label>
+                <input type="text"
+                       th:field="*{phoneNumber}"
+                       class="form-control"
+                       placeholder="+20xxxxxxxxxx"
+                       required>
+            </div>
+
+            <!-- Job Title -->
+            <div class="col-12">
+                <label class="form-label">
+                    <i class="bi bi-briefcase"></i> الوظيفة
+                </label>
+                <input type="text"
+                       th:field="*{jobTitle}"
+                       class="form-control"
+                       placeholder="الوظيفة"
+                       required>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn submit-btn w-100 mt-4">
+            <i class="bi bi-check2-circle me-1"></i>حفظ
+        </button>
+
+    </form>
+
+</div>
+
+<!-- Scripts -->
+<script>
+    function togglePassword() {
+        const password = document.getElementById("password");
+        const icon = document.getElementById("eyeIcon");
+
+        if (password.type === "password") {
+            password.type = "text";
+            icon.classList.replace("bi-eye", "bi-eye-slash");
+        } else {
+            password.type = "password";
+            icon.classList.replace("bi-eye-slash", "bi-eye");
+        }
+    }
+
+    function toggleDarkMode() {
+        const body = document.body;
+        const icon = document.querySelector('#darkToggle i');
+
+        body.classList.toggle("dark-mode");
+
+        if (body.classList.contains("dark-mode")) {
+            icon.classList.replace("bi-moon-stars-fill", "bi-sun-fill");
+            localStorage.setItem("darkMode", "true");
+        } else {
+            icon.classList.replace("bi-sun-fill", "bi-moon-stars-fill");
+            localStorage.setItem("darkMode", "false");
+        }
+    }
+
+    // Check saved preference on load
+    if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
+        document.querySelector('#darkToggle i').classList.replace("bi-moon-stars-fill", "bi-sun-fill");
+    }
+</script>
+
+</body>
+</html>
