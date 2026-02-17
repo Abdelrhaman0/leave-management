@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +53,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             color: var(--primary-color);
             transition: 0.3s;
         }
@@ -63,7 +64,7 @@
             background: var(--card-bg);
             border: none;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: background 0.4s ease;
         }
 
@@ -72,23 +73,27 @@
             color: var(--text-main);
         }
 
-        .form-control, .form-select {
-            background-color: var(--bg-gradient); /* careful with gradient here, usually simpler bg */
-            background: rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.1);
+        .form-control,
+        .form-select {
+            background-color: var(--bg-gradient);
+            /* careful with gradient here, usually simpler bg */
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             color: var(--text-main);
             border-radius: 10px;
             padding: 10px 15px;
         }
-        
+
         /* Override form input background for dark mode readability */
-        body.dark-mode .form-control, body.dark-mode .form-select {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.1);
+        body.dark-mode .form-control,
+        body.dark-mode .form-select {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
             color: var(--text-main);
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             background: transparent;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(72, 52, 212, 0.25);
@@ -123,120 +128,110 @@
         }
     </style>
 </head>
+
 <body>
 
-<!-- Dark Mode Toggle -->
-<div class="toggle-dark" onclick="toggleDarkMode()" id="darkToggle">
-    <i class="bi bi-moon-stars-fill"></i>
-</div>
-
-<div class="card leave-card p-4">
-    <div class="card-body text-center">
-        
-        <div class="card-header-icon">
-            <i class="bi bi-calendar-plus"></i>
-        </div>
-
-        <h3 class="fw-bold mb-4" style="color: var(--primary-color)">طلب إجازة جديد</h3>
-
-        <form th:action="@{/leaves/request}"
-              th:object="${leaveForm}"
-              method="post" class="text-start">
-
-            <!-- Leave Type -->
-            <div class="mb-3">
-                <label class="form-label">نوع الإجازة</label>
-                <select th:field="*{type}"
-                        class="form-select"
-                        th:classappend="${#fields.hasErrors('type')} ? 'is-invalid'">
-                    <option value="" disabled selected>اختر نوع الإجازة</option>
-                    <option th:each="t : ${leaveTypes}"
-                            th:value="${t}"
-                            th:text="${t}">
-                    </option>
-                </select>
-                <div class="invalid-feedback" th:errors="*{type}"></div>
-            </div>
-
-            <!-- Start Date -->
-            <div class="mb-3">
-                <label class="form-label">تاريخ البداية</label>
-                <input type="date"
-                       th:field="*{startDate}"
-                       class="form-control"
-                       th:classappend="${#fields.hasErrors('startDate')} ? 'is-invalid'">
-                <div class="invalid-feedback" th:errors="*{startDate}"></div>
-            </div>
-
-            <!-- End Date -->
-            <div class="mb-3">
-                <label class="form-label">تاريخ النهاية</label>
-                <input type="date"
-                       th:field="*{endDate}"
-                       class="form-control"
-                       th:classappend="${#fields.hasErrors('endDate')} ? 'is-invalid'">
-                <div class="invalid-feedback" th:errors="*{endDate}"></div>
-            </div>
-
-            <!-- Reason -->
-            <div class="mb-3">
-                <label class="form-label">سبب الإجازة</label>
-                <textarea rows="3"
-                          th:field="*{reason}"
-                          class="form-control"
-                          placeholder="اكتب سبب الإجازة..."
-                          th:classappend="${#fields.hasErrors('reason')} ? 'is-invalid'">
-                </textarea>
-                <div class="invalid-feedback" th:errors="*{reason}"></div>
-            </div>
-
-            <!-- Submit -->
-            <button type="submit" class="btn btn-primary w-100 mt-2">
-                <i class="bi bi-send-fill me-2"></i> إرسال الطلب
-            </button>
-            
-            <a href="/employee/dashboard" class="btn btn-link w-100 mt-2 text-muted text-decoration-none">
-                <small>العودة للوحة التحكم</small>
-            </a>
-
-        </form>
-        
-        <div class="mt-3">
-            <div th:if="${error}" class="alert alert-danger" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i> [[${error}]]
-            </div>
-
-            <div th:if="${success}" class="alert alert-success" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i> [[${success}]]
-            </div>
-        </div>
-
+    <!-- Dark Mode Toggle -->
+    <div class="toggle-dark" onclick="toggleDarkMode()" id="darkToggle">
+        <i class="bi bi-moon-stars-fill"></i>
     </div>
-</div>
 
-<!-- Scripts -->
-<script>
-    function toggleDarkMode() {
-        const body = document.body;
-        const icon = document.querySelector('#darkToggle i');
+    <div class="card leave-card p-4">
+        <div class="card-body text-center">
 
-        body.classList.toggle("dark-mode");
+            <div class="card-header-icon">
+                <i class="bi bi-calendar-plus"></i>
+            </div>
 
-        if (body.classList.contains("dark-mode")) {
-            icon.classList.replace("bi-moon-stars-fill", "bi-sun-fill");
-            localStorage.setItem("darkMode", "true");
-        } else {
-            icon.classList.replace("bi-sun-fill", "bi-moon-stars-fill");
-            localStorage.setItem("darkMode", "false");
+            <h3 class="fw-bold mb-4" style="color: var(--primary-color)">طلب إجازة جديد</h3>
+
+            <form th:action="@{/leaves/request}" th:object="${leaveForm}" method="post" class="text-start">
+
+                <!-- Leave Type -->
+                <div class="mb-3">
+                    <label class="form-label">نوع الإجازة</label>
+                    <select th:field="*{type}" class="form-select"
+                        th:classappend="${#fields.hasErrors('type')} ? 'is-invalid'">
+                        <option value="" disabled selected>اختر نوع الإجازة</option>
+                        <option th:each="t : ${leaveTypes}" th:value="${t}" th:text="${t.displayName}">
+                        </option>
+                    </select>
+                    <div class="invalid-feedback" th:errors="*{type}"></div>
+                </div>
+
+                <!-- Start Date -->
+                <div class="mb-3">
+                    <label class="form-label">تاريخ البداية</label>
+                    <input type="date" th:field="*{startDate}" class="form-control"
+                        th:classappend="${#fields.hasErrors('startDate')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:errors="*{startDate}"></div>
+                </div>
+
+                <!-- End Date -->
+                <div class="mb-3">
+                    <label class="form-label">تاريخ النهاية</label>
+                    <input type="date" th:field="*{endDate}" class="form-control"
+                        th:classappend="${#fields.hasErrors('endDate')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:errors="*{endDate}"></div>
+                </div>
+
+                <!-- Reason -->
+                <div class="mb-3">
+                    <label class="form-label">سبب الإجازة</label>
+                    <textarea rows="3" th:field="*{reason}" class="form-control" placeholder="اكتب سبب الإجازة..."
+                        th:classappend="${#fields.hasErrors('reason')} ? 'is-invalid'">
+                </textarea>
+                    <div class="invalid-feedback" th:errors="*{reason}"></div>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-primary w-100 mt-2">
+                    <i class="bi bi-send-fill me-2"></i> إرسال الطلب
+                </button>
+
+                <a href="/employee/dashboard" class="btn btn-link w-100 mt-2 text-muted text-decoration-none">
+                    <small>العودة للوحة التحكم</small>
+                </a>
+
+            </form>
+
+            <div class="mt-3">
+                <div th:if="${error}" class="alert alert-danger" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> [[${error}]]
+                </div>
+
+                <div th:if="${success}" class="alert alert-success" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> [[${success}]]
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            const icon = document.querySelector('#darkToggle i');
+
+            body.classList.toggle("dark-mode");
+
+            if (body.classList.contains("dark-mode")) {
+                icon.classList.replace("bi-moon-stars-fill", "bi-sun-fill");
+                localStorage.setItem("darkMode", "true");
+            } else {
+                icon.classList.replace("bi-sun-fill", "bi-moon-stars-fill");
+                localStorage.setItem("darkMode", "false");
+            }
         }
-    }
 
-    // Check saved preference on load
-    if (localStorage.getItem("darkMode") === "true") {
-        document.body.classList.add("dark-mode");
-        document.querySelector('#darkToggle i').classList.replace("bi-moon-stars-fill", "bi-sun-fill");
-    }
-</script>
+        // Check saved preference on load
+        if (localStorage.getItem("darkMode") === "true") {
+            document.body.classList.add("dark-mode");
+            document.querySelector('#darkToggle i').classList.replace("bi-moon-stars-fill", "bi-sun-fill");
+        }
+    </script>
 
 </body>
+
 </html>
