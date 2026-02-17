@@ -57,7 +57,8 @@ public class SecurityConfig {
                                                                 "/login",
                                                                 "/css/**",
                                                                 "/js/**",
-                                                                "/images/**")
+                                                                "/images/**",
+                                                                "/logoImage.jpeg")
                                                 .permitAll()
 
                                                 // Dashboard router
