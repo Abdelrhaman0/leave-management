@@ -94,35 +94,14 @@ public class LeaveRequestService {
         return leaveRequestRepository.findByStatus(LeaveStatus.PENDING);
     }
 
+    @Transactional
     public void approve(Long requestId) {
-
-        LeaveRequest request = leaveRequestRepository.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Request not found"));
-
-        if (request.getStatus() != LeaveStatus.PENDING) {
-            throw new IllegalStateException("Request already processed");
-        }
-
-        Employee employee = request.getEmployee();
-
-        employee.setAnnualLeaveBalance(
-                employee.getAnnualLeaveBalance() - request.getTotalDays());
-
-        request.setStatus(LeaveStatus.APPROVED);
-        leaveRequestRepository.save(request);
+        approveRequest(requestId);
     }
 
+    @Transactional
     public void reject(Long requestId) {
-
-        LeaveRequest request = leaveRequestRepository.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Request not found"));
-
-        if (request.getStatus() != LeaveStatus.PENDING) {
-            throw new IllegalStateException("Request already processed");
-        }
-
-        request.setStatus(LeaveStatus.REJECTED);
-        leaveRequestRepository.save(request);
+        rejectRequest(requestId);
     }
 
     public List<LeaveRequest> getMyRequests(String code) {
@@ -140,6 +119,7 @@ public class LeaveRequestService {
         }
 
         request.setStatus(LeaveStatus.REJECTED);
+        leaveRequestRepository.save(request);
     }
 
     public List<LeaveRequest> getPendingRequests() {
@@ -157,19 +137,18 @@ public class LeaveRequestService {
         }
 
         Employee employee = request.getEmployee();
-
         int days = request.getTotalDays();
 
         if (employee.getAnnualLeaveBalance() < days) {
             throw new IllegalStateException("Not enough leave balance");
         }
 
-        // update status
+        // 1. Update request status
         request.setStatus(LeaveStatus.APPROVED);
+        leaveRequestRepository.save(request);
 
-        // update employee balance
-        employee.setAnnualLeaveBalance(
-                employee.getAnnualLeaveBalance() - days);
+        // 2. Recalculate employee balance to ensure consistency
+        employeeService.recalcBalance(employee);
     }
 
 
