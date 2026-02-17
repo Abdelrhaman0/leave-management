@@ -68,7 +68,8 @@ public class SecurityConfig {
                                                 .requestMatchers("/employee/**", "/leaves/**")
                                                 .hasRole("EMPLOYEE")
 
-                                                .requestMatchers("/profile/**").hasRole("EMPLOYEE")
+                                                .requestMatchers("/profile/**").hasAnyRole("EMPLOYEE", "MANAGER")
+
 
                                                 // Manager
                                                 .requestMatchers("/manager/**")
