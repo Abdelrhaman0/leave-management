@@ -92,7 +92,7 @@ public class ManagerDashboardController {
     @PostMapping("/delete/{code}")
     public String deleteEmployee(@PathVariable("code") String employeeCode) {
         employeeService.deleteEmployee(employeeCode);
-        return "redirect:/manager-employees";
+        return "redirect:/manager/employees";
     }
 
 }
