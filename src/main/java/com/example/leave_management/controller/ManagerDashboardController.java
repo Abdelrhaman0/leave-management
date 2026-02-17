@@ -28,8 +28,11 @@ public class ManagerDashboardController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(Model model, java.security.Principal principal) {
+        String code = principal.getName();
+        com.example.leave_management.entity.Employee manager = employeeService.getByEmployeeCode(code);
 
+        model.addAttribute("manager", manager);
         model.addAttribute("requests",
                 leaveRequestService.getPendingRequests());
 
