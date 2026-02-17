@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,7 +50,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             color: var(--primary-color);
             transition: 0.3s;
         }
@@ -67,13 +68,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             color: #ef4444;
             border: none;
             cursor: pointer;
             transition: 0.3s;
             font-size: 1.1rem;
         }
+
         .logout-btn:hover {
             background: #ef4444;
             color: white;
@@ -84,14 +86,15 @@
             background: var(--card-bg);
             border: none;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: background 0.4s ease;
         }
 
         /* Profile Section */
         .profile-section {
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
+
         .info-box i {
             color: var(--primary-color);
             margin-left: 10px;
@@ -107,7 +110,11 @@
             border: none;
             transition: transform 0.3s ease;
         }
-        .stat-card:hover { transform: translateY(-5px); }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
         .stat-card i {
             position: absolute;
             left: -10px;
@@ -116,30 +123,57 @@
             opacity: 0.2;
         }
 
-        .bg-pending { background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%); }
-        .bg-approved { background: linear-gradient(45deg, #00b09b 0%, #96c93d 100%); }
-        .bg-rejected { background: linear-gradient(45deg, #ff0844 0%, #ffb199 100%); }
-        .bg-balance { background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%); }
+        .bg-pending {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .bg-approved {
+            background: linear-gradient(45deg, #00b09b 0%, #96c93d 100%);
+        }
+
+        .bg-rejected {
+            background: linear-gradient(45deg, #ff0844 0%, #ffb199 100%);
+        }
+
+        .bg-balance {
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+        }
 
         /* Table Styling */
-        .table { color: var(--text-main); }
+        .table {
+            color: var(--text-main);
+        }
+
         .table thead th {
-            background-color: rgba(0,0,0,0.03);
+            background-color: rgba(0, 0, 0, 0.03);
             border: none;
             color: var(--text-muted);
             font-weight: 600;
             text-transform: uppercase;
             font-size: 0.85rem;
         }
+
         .status-badge {
             padding: 6px 12px;
             border-radius: 8px;
             font-weight: 600;
             font-size: 0.8rem;
         }
-        .status-PENDING { background: #fff3cd; color: #856404; }
-        .status-APPROVED { background: #d4edda; color: #155724; }
-        .status-REJECTED { background: #f8d7da; color: #721c24; }
+
+        .status-PENDING {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-APPROVED {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-REJECTED {
+            background: #f8d7da;
+            color: #721c24;
+        }
 
         .btn-request {
             border-radius: 12px;
@@ -149,189 +183,190 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="toggle-dark" onclick="toggleDarkMode()" id="darkToggle">
-    <i class="bi bi-moon-stars-fill"></i>
-</div>
-
-<form th:action="@{/logout}" method="post">
-    <button class="logout-btn" title="تسجيل الخروج">
-        <i class="bi bi-box-arrow-right"></i>
-    </button>
-</form>
-
-<div class="container py-5">
-
-    <div class="main-card p-4 mb-4">
-        <div class="row align-items-center">
-            <div class="col-md-6 profile-section">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center ms-3"
-                         style="width: 60px; height: 60px; font-size: 1.5rem;">
-                        <span th:text="${#strings.substring(employee.name,0,1)}">M</span>
-                    </div>
-                    <div>
-                        <h3 class="mb-0 fw-bold" th:text="${employee.name}">اسم الموظف</h3>
-                        <span class="badge bg-light text-dark border" th:text="${employee.jobTitle}">المسمى الوظيفي</span>
-                    </div>
-                </div>
-                <div class="row g-3 mt-2">
-                    <div class="col-sm-6 info-box">
-                        <small class="text-muted d-block">البريد الإلكتروني</small>
-                        <i class="bi bi-envelope"></i><span th:text="${employee.email}">-</span>
-                    </div>
-                    <div class="col-sm-6 info-box">
-                        <small class="text-muted d-block">رقم الهاتف</small>
-                        <i class="bi bi-telephone"></i><span th:text="${employee.phoneNumber}">-</span>
-                    </div>
-                    <div class="col-sm-6 info-box">
-                        <small class="text-muted d-block">كود الموظف</small>
-                        <i class="bi bi-number"></i><span th:text="${employee.employeeCode}">-</span>
-                    </div>
-                    <div class="col-sm-6 info-box">
-                        <small class="text-muted d-block">العمر</small>
-                        <i class="bi bi-number"></i><span th:text="${employee.age}">-</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mt-3 mt-md-0">
-                <div class="p-3 rounded-4 bg-light text-dark">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span><i class="bi bi-calendar3 ms-2"></i> تاريخ التعيين:</span>
-                        <strong th:text="${employee.hireDate}">2023-01-01</strong>
-                    </div>
-                    <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
-                    </div>
-                    <small class="mt-2 d-block text-muted">موظف نشط في النظام</small>
-                </div>
-            </div>
-            <br>
-            <a th:href="@{/profile/edit}" class="btn btn-outline-dark rounded-pill px-4">
-                <i class="bi bi-person-gear"></i> تعديل الملف الشخصي
-            </a>
-
-        </div>
+    <div class="toggle-dark" onclick="toggleDarkMode()" id="darkToggle">
+        <i class="bi bi-moon-stars-fill"></i>
     </div>
 
-    <div class="row g-3 mb-4 text-center">
-        <div class="col-6 col-md-3">
-            <div class="stat-card bg-pending shadow-sm">
-                <i class="bi bi-hourglass-split"></i>
-                <small class="d-block">قيد الانتظار</small>
-                <h2 class="fw-bold mb-0" th:text="${pendingCount}">0</h2>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-card bg-approved shadow-sm">
-                <i class="bi bi-check2-all"></i>
-                <small class="d-block">تمت الموافقة</small>
-                <h2 class="fw-bold mb-0" th:text="${approvedCount}">0</h2>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-card bg-rejected shadow-sm">
-                <i class="bi bi-x-circle"></i>
-                <small class="d-block">الطلبات المرفوضة</small>
-                <h2 class="fw-bold mb-0" th:text="${rejectedCount}">0</h2>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-card bg-balance shadow-sm">
-                <i class="bi bi-wallet2"></i>
-                <small class="d-block">رصيدك الحالي</small>
-                <h2 class="fw-bold mb-0" th:text="${leaveBalance}">0</h2>
-            </div>
-        </div>
-    </div>
+    <form th:action="@{/logout}" method="post">
+        <button class="logout-btn" title="تسجيل الخروج">
+            <i class="bi bi-box-arrow-right"></i>
+        </button>
+    </form>
 
-    <div class="main-card p-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bold mb-0">سجل الإجازات</h4>
-            <a href="/leaves/request" class="btn btn-primary btn-request">
-                <i class="bi bi-plus-lg me-1"></i> طلب إجازة جديد
-            </a>
-        </div>
+    <div class="container py-5">
 
-        <div class="table-responsive">
-            <table class="table align-middle">
-                <thead>
-                <tr>
-                    <th>النوع</th>
-                    <th>الفترة (من - إلى)</th>
-                    <th>السبب</th>
-                    <th>الحالة</th>
-                    <th>الإجراء</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="req : ${requests}">
-                    <td>
-                        <div class="fw-bold text-primary" th:text="${req.type}">سنوية</div>
-                    </td>
-                    <td>
-                        <div style="font-size: 0.9rem;">
-                            <span class="text-muted">من:</span> <span th:text="${req.startDate}"></span><br>
-                            <span class="text-muted">إلى:</span> <span th:text="${req.endDate}"></span>
+        <div class="main-card p-4 mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 profile-section">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center ms-3"
+                            style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <span th:text="${#strings.substring(employee.name,0,1)}">M</span>
                         </div>
-                    </td>
-                    <td>
-                        <span class="text-truncate d-inline-block" style="max-width: 150px;"
-                              th:text="${req.reason}" th:title="${req.reason}"></span>
-                    </td>
-                    <td>
-                        <span class="status-badge"
-                              th:text="${req.status}"
-                              th:classappend="' status-' + ${req.status}">
-                        </span>
-                    </td>
-                    <td>
-                        <form th:if="${req.status.name() == 'PENDING'}"
-                              th:action="@{/employee/cancel/{id}(id=${req.id})}"
-                              method="post"
-                              onsubmit="return confirm('هل تريد حقاً إلغاء هذا الطلب؟')">
-                            <button class="btn btn-outline-danger btn-sm rounded-3">
-                                <i class="bi bi-trash ms-1"></i> إلغاء
-                            </button>
-                        </form>
-                        <span th:if="${req.status.name() != 'PENDING'}" class="text-muted">—</span>
-                    </td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(requests)}">
-                    <td colspan="5" class="text-center py-5">
-                        <i class="bi bi-calendar-x fs-1 text-muted d-block mb-2"></i>
-                        لا يوجد لديك طلبات سابقة
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        <div>
+                            <h3 class="mb-0 fw-bold" th:text="${employee.name}">اسم الموظف</h3>
+                            <span class="badge bg-light text-dark border" th:text="${employee.jobTitle}">المسمى
+                                الوظيفي</span>
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-2">
+                        <div class="col-sm-6 info-box">
+                            <small class="text-muted d-block">البريد الإلكتروني</small>
+                            <i class="bi bi-envelope"></i><span th:text="${employee.email}">-</span>
+                        </div>
+                        <div class="col-sm-6 info-box">
+                            <small class="text-muted d-block">رقم الهاتف</small>
+                            <i class="bi bi-telephone"></i><span th:text="${employee.phoneNumber}">-</span>
+                        </div>
+                        <div class="col-sm-6 info-box">
+                            <small class="text-muted d-block">كود الموظف</small>
+                            <i class="bi bi-number"></i><span th:text="${employee.employeeCode}">-</span>
+                        </div>
+                        <div class="col-sm-6 info-box">
+                            <small class="text-muted d-block">العمر</small>
+                            <i class="bi bi-number"></i><span th:text="${employee.age}">-</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3 mt-md-0">
+                    <div class="p-3 rounded-4 bg-light text-dark">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span><i class="bi bi-calendar3 ms-2"></i> تاريخ التعيين:</span>
+                            <strong th:text="${employee.hireDate}">2023-01-01</strong>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                        </div>
+                        <small class="mt-2 d-block text-muted">موظف نشط في النظام</small>
+                    </div>
+                </div>
+                <br>
+                <a th:href="@{/profile/edit}" class="btn btn-outline-dark rounded-pill px-4">
+                    <i class="bi bi-person-gear"></i> تعديل الملف الشخصي
+                </a>
+
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4 text-center">
+            <div class="col-6 col-md-3">
+                <div class="stat-card bg-pending shadow-sm">
+                    <i class="bi bi-hourglass-split"></i>
+                    <small class="d-block">قيد الانتظار</small>
+                    <h2 class="fw-bold mb-0" th:text="${pendingCount}">0</h2>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card bg-approved shadow-sm">
+                    <i class="bi bi-check2-all"></i>
+                    <small class="d-block">تمت الموافقة</small>
+                    <h2 class="fw-bold mb-0" th:text="${approvedCount}">0</h2>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card bg-rejected shadow-sm">
+                    <i class="bi bi-x-circle"></i>
+                    <small class="d-block">الطلبات المرفوضة</small>
+                    <h2 class="fw-bold mb-0" th:text="${rejectedCount}">0</h2>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card bg-balance shadow-sm">
+                    <i class="bi bi-wallet2"></i>
+                    <small class="d-block">رصيدك الحالي</small>
+                    <h2 class="fw-bold mb-0" th:text="${leaveBalance}">0</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold mb-0">سجل الإجازات</h4>
+                <a href="/leaves/request" class="btn btn-primary btn-request">
+                    <i class="bi bi-plus-lg me-1"></i> طلب إجازة جديد
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>النوع</th>
+                            <th>الفترة (من - إلى)</th>
+                            <th>السبب</th>
+                            <th>الحالة</th>
+                            <th>الإجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="req : ${requests}">
+                            <td>
+                                <div class="fw-bold text-primary" th:text="${req.type.displayName}">سنوية</div>
+                            </td>
+                            <td>
+                                <div style="font-size: 0.9rem;">
+                                    <span class="text-muted">من:</span> <span th:text="${req.startDate}"></span><br>
+                                    <span class="text-muted">إلى:</span> <span th:text="${req.endDate}"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="text-truncate d-inline-block" style="max-width: 150px;"
+                                    th:text="${req.reason}" th:title="${req.reason}"></span>
+                            </td>
+                            <td>
+                                <span class="status-badge" th:text="${req.status}"
+                                    th:classappend="' status-' + ${req.status}">
+                                </span>
+                            </td>
+                            <td>
+                                <form th:if="${req.status.name() == 'PENDING'}"
+                                    th:action="@{/employee/cancel/{id}(id=${req.id})}" method="post"
+                                    onsubmit="return confirm('هل تريد حقاً إلغاء هذا الطلب؟')">
+                                    <button class="btn btn-outline-danger btn-sm rounded-3">
+                                        <i class="bi bi-trash ms-1"></i> إلغاء
+                                    </button>
+                                </form>
+                                <span th:if="${req.status.name() != 'PENDING'}" class="text-muted">—</span>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(requests)}">
+                            <td colspan="5" class="text-center py-5">
+                                <i class="bi bi-calendar-x fs-1 text-muted d-block mb-2"></i>
+                                لا يوجد لديك طلبات سابقة
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    function toggleDarkMode() {
-        const body = document.body;
-        const icon = document.querySelector('#darkToggle i');
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            const icon = document.querySelector('#darkToggle i');
 
-        body.classList.toggle("dark-mode");
+            body.classList.toggle("dark-mode");
 
-        if (body.classList.contains("dark-mode")) {
-            icon.classList.replace("bi-moon-stars-fill", "bi-sun-fill");
-            localStorage.setItem("darkMode", "true");
-        } else {
-            icon.classList.replace("bi-sun-fill", "bi-moon-stars-fill");
-            localStorage.setItem("darkMode", "false");
+            if (body.classList.contains("dark-mode")) {
+                icon.classList.replace("bi-moon-stars-fill", "bi-sun-fill");
+                localStorage.setItem("darkMode", "true");
+            } else {
+                icon.classList.replace("bi-sun-fill", "bi-moon-stars-fill");
+                localStorage.setItem("darkMode", "false");
+            }
         }
-    }
 
-    // Check saved preference on load
-    if (localStorage.getItem("darkMode") === "true") {
-        document.body.classList.add("dark-mode");
-        document.querySelector('#darkToggle i').classList.replace("bi-moon-stars-fill", "bi-sun-fill");
-    }
-</script>
+        // Check saved preference on load
+        if (localStorage.getItem("darkMode") === "true") {
+            document.body.classList.add("dark-mode");
+            document.querySelector('#darkToggle i').classList.replace("bi-moon-stars-fill", "bi-sun-fill");
+        }
+    </script>
 
 </body>
+
 </html>
