@@ -71,13 +71,12 @@ public interface LeaveRequestRepository extends JpaRepository<LeaveRequest, Long
             @Param("status") LeaveStatus status);
 
     @Query("""
-
-            SELECT COALESCE(SUM(l.totalDays),0)
-FROM LeaveRequest l
-WHERE l.employee.employeeCode = :empCode
-AND l.status = 'APPROVED'
-AND l.type = 'ANNUAL'
-""")
+            SELECT COALESCE(SUM(l.totalDays), 0)
+            FROM LeaveRequest l
+            WHERE l.employee.employeeCode = :empCode
+              AND l.status = 'APPROVED'
+              AND (l.type = 'ANNUAL' OR l.type = 'CASUAL')
+            """)
     int sumAnnualDaysByEmployee(String empCode);
 
 }
