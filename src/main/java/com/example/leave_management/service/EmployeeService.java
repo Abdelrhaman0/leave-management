@@ -50,7 +50,7 @@ public class EmployeeService {
     @Transactional
     public void recalcBalance(Employee e) {
 
-        int used = leaveRequestRepository.sumAnnualDaysByEmployee(e.getEmployeeCode());
+        int used = leaveRequestRepository.sumAnnualDaysByEmployeeId(e.getId());
 
         int totalAllowed = 21;
 

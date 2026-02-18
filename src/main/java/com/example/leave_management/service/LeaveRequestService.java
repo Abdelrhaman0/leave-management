@@ -145,12 +145,11 @@ public class LeaveRequestService {
 
         // 1. Update request status
         request.setStatus(LeaveStatus.APPROVED);
-        leaveRequestRepository.save(request);
+        leaveRequestRepository.saveAndFlush(request);
 
         // 2. Recalculate employee balance to ensure consistency
         employeeService.recalcBalance(employee);
     }
-
 
     // public long countByStatus(String email, LeaveStatus status) {
     // return leaveRequestRepository

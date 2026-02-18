@@ -40,7 +40,8 @@ public class ManagerDashboardController {
     }
 
     @PostMapping("/approve/{id}")
-    public String approve(@PathVariable Long id) {
+
+    public String approve(@PathVariable("id") Long id) {
 
         leaveRequestService.approveRequest(id);
 
@@ -48,7 +49,7 @@ public class ManagerDashboardController {
     }
 
     @PostMapping("/reject/{id}")
-    public String reject(@PathVariable Long id) {
+    public String reject(@PathVariable("id") Long id) {
 
         leaveRequestService.rejectRequest(id);
 

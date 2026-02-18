@@ -30,12 +30,13 @@
             background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
             color: var(--text-color);
             line-height: 1.6;
-            padding: 2rem;
+            padding: 1rem;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: none;
+            width: 98%;
             margin: 0 auto;
         }
 
@@ -130,11 +131,13 @@
             background: var(--surface-color);
             border-radius: 12px;
             box-shadow: var(--shadow);
-            overflow: hidden;
+            overflow: auto;
+            max-height: 75vh;
         }
 
         table {
             width: 100%;
+            min-width: 1200px;
             border-collapse: collapse;
             text-align: right;
         }
@@ -146,12 +149,16 @@
             padding: 1rem 1.5rem;
             border-bottom: 1px solid var(--border-color);
             white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         td {
             padding: 1rem 1.5rem;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-color);
+            white-space: nowrap;
         }
 
         tr:last-child td {
@@ -299,7 +306,7 @@
                         <td th:text="${emp.hireDate}"></td>
                         <td th:text="${emp.employeeCode}"></td>
                         <td th:text="${emp.annualLeaveBalance}"></td>
-                        <td>
+                        <td style="min-width: 120px;">
                             <div class="actions">
                                 <!-- Delete Button -->
                                 <form th:action="@{/manager/delete/{code}(code=${emp.employeeCode})}" method="post"

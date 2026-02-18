@@ -15,14 +15,13 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(unique = true, nullable = false)
     private String employeeCode;
 
     @Column(nullable = false)
     private String name;
 
-    @Column( unique = false)
+    @Column(unique = false)
     private String email;
 
     @Column(nullable = false)
@@ -49,9 +48,11 @@ public class Employee {
     @Column
     private String jobTitle;
 
-    public Employee(){}
+    public Employee() {
+    }
 
-    public Employee(String name, String email, String password, Role role, int annualLeaveBalance, List<LeaveRequest> leaveRequests, LocalDate hireDate, Integer age, String phoneNumber, String jobTitle) {
+    public Employee(String name, String email, String password, Role role, int annualLeaveBalance,
+            List<LeaveRequest> leaveRequests, LocalDate hireDate, Integer age, String phoneNumber, String jobTitle) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -150,5 +151,9 @@ public class Employee {
 
     public void setEmployeeCode(String employeeCode) {
         this.employeeCode = employeeCode;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
