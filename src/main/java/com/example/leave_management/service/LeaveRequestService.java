@@ -7,10 +7,17 @@ import com.example.leave_management.enumm.LeaveType;
 import com.example.leave_management.repository.LeaveRequestRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class LeaveRequestService {
@@ -28,7 +35,8 @@ public class LeaveRequestService {
             LeaveType type,
             LocalDate start,
             LocalDate end,
-            String reason) {
+            String reason,
+            MultipartFile attachment) {
 
         if (end.isBefore(start)) {
             throw new IllegalStateException("End date cannot be before start date");
@@ -61,6 +69,23 @@ public class LeaveRequestService {
         request.setReason(reason);
         request.setStatus(LeaveStatus.PENDING);
         request.setTotalDays(days);
+
+        if (attachment != null && !attachment.isEmpty()) {
+            try {
+                String uploadDir = "uploads/";
+                Path uploadPath = Paths.get(uploadDir);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                String fileName = UUID.randomUUID().toString() + "_" + attachment.getOriginalFilename();
+                Path filePath = uploadPath.resolve(fileName);
+                Files.copy(attachment.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                request.setAttachmentPath("/uploads/" + fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not store image. Please try again!", e);
+            }
+        }
 
         leaveRequestRepository.save(request);
     }
@@ -148,7 +173,7 @@ public class LeaveRequestService {
         leaveRequestRepository.saveAndFlush(request);
 
         // 2. Recalculate employee balance to ensure consistency
-        employeeService.recalcBalance(employee,21);
+        employeeService.recalcBalance(employee, 21);
     }
 
     // public long countByStatus(String email, LeaveStatus status) {

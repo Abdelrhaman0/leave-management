@@ -4,13 +4,12 @@ import com.example.leave_management.enumm.LeaveStatus;
 import com.example.leave_management.enumm.LeaveType;
 import jakarta.persistence.*;
 
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "leave_requests")
-public class LeaveRequest extends BaseEntity{
+public class LeaveRequest extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +18,6 @@ public class LeaveRequest extends BaseEntity{
     @JoinColumn(name = "employee_id")
     @ManyToOne
     private Employee employee;
-
 
     @Enumerated(EnumType.STRING)
     private LeaveType type;
@@ -34,11 +32,15 @@ public class LeaveRequest extends BaseEntity{
 
     private String reason;
 
+    private String attachmentPath;
+
     private LocalDateTime createdAt;
 
-    public LeaveRequest(){}
+    public LeaveRequest() {
+    }
 
-    public LeaveRequest(Employee employee, LocalDate startDate, LocalDate endDate, LeaveStatus status, String reason, int totalDays) {
+    public LeaveRequest(Employee employee, LocalDate startDate, LocalDate endDate, LeaveStatus status, String reason,
+            int totalDays) {
         this.employee = employee;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -107,13 +109,20 @@ public class LeaveRequest extends BaseEntity{
         return createdAt;
     }
 
-
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getAttachmentPath() {
+        return attachmentPath;
+    }
+
+    public void setAttachmentPath(String attachmentPath) {
+        this.attachmentPath = attachmentPath;
     }
 
     public Long getId() {
         return id;
     }
-    
+
 }

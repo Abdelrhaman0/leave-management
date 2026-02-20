@@ -40,8 +40,7 @@ public class LeaveRequestController {
             BindingResult result,
             Principal principal,
             Model model,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
 
         // 1️⃣ Bean Validation errors
         if (result.hasErrors()) {
@@ -55,13 +54,12 @@ public class LeaveRequestController {
                     form.getType(),
                     form.getStartDate(),
                     form.getEndDate(),
-                    form.getReason()
-            );
+                    form.getReason(),
+                    form.getAttachment());
 
             redirectAttributes.addFlashAttribute(
                     "success",
-                    "Leave request submitted successfully"
-            );
+                    "Leave request submitted successfully");
 
             return "redirect:/employee/dashboard";
 
@@ -80,8 +78,7 @@ public class LeaveRequestController {
 
         model.addAttribute(
                 "requests",
-                leaveRequestService.findByEmployeeEmail(principal.getName())
-        );
+                leaveRequestService.findByEmployeeEmail(principal.getName()));
 
         return "my-leaves";
     }

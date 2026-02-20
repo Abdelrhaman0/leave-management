@@ -2,11 +2,14 @@ package com.example.leave_management.dto;
 
 import com.example.leave_management.enumm.LeaveType;
 import jakarta.validation.constraints.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 
 public class LeaveForm {
     @NotNull(message = "نوع الإجازة مطلوب")
     private LeaveType type;
+
+    private MultipartFile attachment;
 
     @NotNull(message = "تاريخ البداية مطلوب")
     private LocalDate startDate;
@@ -47,5 +50,13 @@ public class LeaveForm {
 
     public void setReason(@NotBlank(message = "سبب الإجازة مطلوب") String reason) {
         this.reason = reason;
+    }
+
+    public MultipartFile getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(MultipartFile attachment) {
+        this.attachment = attachment;
     }
 }

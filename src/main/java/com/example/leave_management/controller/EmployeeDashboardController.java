@@ -33,7 +33,7 @@ public class EmployeeDashboardController {
         public String dashboard(Model model, Principal principal) {
 
                 String code = principal.getName();
-                int balance = 0;
+//                int balance = 0;
 
                 Employee employee = employeeService.getByEmployeeCode(code);
                 if (employeeService.lessThanSixMonth(employee))
@@ -52,15 +52,15 @@ public class EmployeeDashboardController {
                         long rejected = requests.stream()
                                         .filter(r -> r.getStatus() == LeaveStatus.REJECTED)
                                         .count();
-                        int totalAllowed = employeeService.lessThanOneYear(employee) ? 15 : 21;
-                        balance = employeeService.recalcBalance(employee, totalAllowed);
+//                        int totalAllowed = employeeService.lessThanOneYear(employee) ? 15 : 21;
+//                        balance = employeeService.recalcBalance(employee, totalAllowed);
 
                         model.addAttribute("employee", employee);
                         model.addAttribute("requests", requests);
                         model.addAttribute("pendingCount", pending);
                         model.addAttribute("approvedCount", approved);
                         model.addAttribute("rejectedCount", rejected);
-                        model.addAttribute("leaveBalance", balance);
+                        model.addAttribute("leaveBalance", employee.getAnnualLeaveBalance());
 
                         return "employee-dashboard";
                 }

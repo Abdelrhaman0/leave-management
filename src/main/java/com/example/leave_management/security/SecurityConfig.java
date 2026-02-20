@@ -58,6 +58,7 @@ public class SecurityConfig {
                                                                 "/css/**",
                                                                 "/js/**",
                                                                 "/images/**",
+                                                                "/uploads/**",
                                                                 "/logoImage.jpeg")
                                                 .permitAll()
 
@@ -69,7 +70,6 @@ public class SecurityConfig {
                                                 .hasRole("EMPLOYEE")
 
                                                 .requestMatchers("/profile/**").hasAnyRole("EMPLOYEE", "MANAGER")
-
 
                                                 // Manager
                                                 .requestMatchers("/manager/**")

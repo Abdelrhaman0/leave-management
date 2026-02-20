@@ -598,7 +598,9 @@
                                         th:data-phone="${req.employee.phoneNumber}"
                                         th:data-job="${req.employee.jobTitle}" th:data-age="${req.employee.age}"
                                         th:data-hire="${req.employee.hireDate}"
-                                        th:data-balance="${req.employee.annualLeaveBalance}" onclick="openModal(this)"
+                                        th:data-balance="${req.employee.annualLeaveBalance}"
+                                        th:data-attachment="${req.attachmentPath}"
+                                        onclick="openModal(this)"
                                         title="عرض التفاصيل">
                                         <i class="fas fa-eye"></i>
                                     </button>
@@ -672,6 +674,18 @@
                         <div id="modalAge" class="info-value">-- سنة</div>
                     </div>
                 </div>
+
+                <div id="attachmentSection" style="margin-top: 1.5rem; display: none; padding-top: 1rem; border-top: 1px dashed var(--border-color);">
+                    <div class="info-label" style="margin-bottom: 0.5rem;"><i class="fas fa-paperclip"></i> المرفقات</div>
+                    <div style="text-align: center;">
+                        <a id="attachmentLink" href="#" target="_blank" style="text-decoration: none;">
+                            <img id="attachmentPreview" src="" alt="المرفق" style="max-height: 200px; max-width: 100%; border-radius: 8px; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.2s;">
+                            <div style="font-size: 0.8rem; color: var(--primary-color); margin-top: 0.5rem;">
+                                <i class="fas fa-search-plus"></i> عرض الصورة بحجم كامل
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -688,6 +702,7 @@
             const age = button.getAttribute('data-age');
             const hire = button.getAttribute('data-hire');
             const balance = button.getAttribute('data-balance');
+            const attachment = button.getAttribute('data-attachment');
 
             // Populate modal
             document.getElementById('modalName').innerText = name;
@@ -697,6 +712,19 @@
             document.getElementById('modalAge').innerText = age + ' ';
             document.getElementById('modalHireDate').innerText = hire;
             document.getElementById('modalBalance').innerText = balance;
+
+            // Handle attachment
+            const attachmentSection = document.getElementById('attachmentSection');
+            const attachmentLink = document.getElementById('attachmentLink');
+            const attachmentPreview = document.getElementById('attachmentPreview');
+
+            if (attachment && attachment !== 'null' && attachment !== '') {
+                attachmentSection.style.display = 'block';
+                attachmentLink.href = attachment;
+                attachmentPreview.src = attachment;
+            } else {
+                attachmentSection.style.display = 'none';
+            }
 
             // Show modal
             modalOverlay.classList.add('active');
