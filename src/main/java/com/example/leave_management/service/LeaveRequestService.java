@@ -148,7 +148,7 @@ public class LeaveRequestService {
         leaveRequestRepository.saveAndFlush(request);
 
         // 2. Recalculate employee balance to ensure consistency
-        employeeService.recalcBalance(employee);
+        employeeService.recalcBalance(employee,21);
     }
 
     // public long countByStatus(String email, LeaveStatus status) {

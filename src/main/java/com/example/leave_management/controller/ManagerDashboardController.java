@@ -1,5 +1,6 @@
 package com.example.leave_management.controller;
 
+import com.example.leave_management.entity.Employee;
 import com.example.leave_management.entity.RegisterRequest;
 import com.example.leave_management.service.AuthService;
 import com.example.leave_management.service.EmployeeService;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/manager")
-public class ManagerDashboardController {
+public class  ManagerDashboardController {
 
     private final LeaveRequestService leaveRequestService;
 
@@ -30,7 +31,7 @@ public class ManagerDashboardController {
     @GetMapping("/dashboard")
     public String dashboard(Model model, java.security.Principal principal) {
         String code = principal.getName();
-        com.example.leave_management.entity.Employee manager = employeeService.getByEmployeeCode(code);
+        Employee manager = employeeService.getByEmployeeCode(code);
 
         model.addAttribute("manager", manager);
         model.addAttribute("requests",
